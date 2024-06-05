@@ -1,7 +1,8 @@
-<script>
+ <script>
   import { onMount, createEventDispatcher } from 'svelte';
   import * as d3 from 'd3';
-  import data from '..//data/gil.json';
+  import SVM from 'ml-svm';
+  import data from '../data/gil.json';
 
   const dispatch = createEventDispatcher();
 
@@ -14,24 +15,23 @@
     ["CH", "FC"],
     ["SL", "FC"]
   ];
-  let sliders = { w0: 0, w1: 0.5, w2: 0.5 };
 
   function handleSelection(event) {
     selectedPair = JSON.parse(event.target.value);
-    console.log('Selected pair:', selectedPair);
     dispatch('selectedPairChanged', selectedPair);
     drawChart();
   }
 
   onMount(() => {
-    console.log('Fetched data:', data);
     drawChart();
   });
 
+  $: drawChart();
+
   function drawChart() {
     const margin = { top: 10, right: 30, bottom: 50, left: 60 };
-    const width = 460 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+    const width = 600;
+    const height = 400;
 
     d3.select("#scatterplot").select("svg").remove();
 
@@ -107,6 +107,39 @@
       tooltip.style("display", "none");
     };
 
+    // Prepare the data for SVM training
+    var labelMapping = { [selectedPair[0]]: 1, [selectedPair[1]]: -1 };
+    var features = filteredData.map(d => [d.release_spin_rate, d.release_speed]);
+    var labels = filteredData.map(d => labelMapping[d.pitch_type]);
+
+    // Train the SVM model
+
+    const svm = new SVM({
+      kernel: 'linear',
+      type: 'C_SVC',
+      cost: 1
+    });
+
+    svm.train(features, labels);
+
+    const w = svm.W
+    const b = svm.b
+
+    const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
+    const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
+
+    const x1 = xScale.domain();
+    const x2 = x1.map(x => (-w[0] * x - b) / w[1]);
+
+    svg.append('line')
+      .attr('x1', xScale(x1[0] + 2.75))
+      .attr('y1', yScale(x2[0] + 2.75))
+      .attr('x2', xScale(x1[1] + 2.75))
+      .attr('y2', yScale(x2[1] + 2.75))
+      .attr('stroke', 'green')
+      .attr('stroke-width', 2);
+    
+
     svg.append('g')
       .selectAll("dot")
       .data(filteredData)
@@ -119,30 +152,7 @@
       .style("fill", d => color(d.pitch_type))
       .on("mouseover", highlight)
       .on("mouseleave", doNotHighlight);
-
-    svg.selectAll(".decision-boundary").remove();
-
-    const line = d3.line()
-      .x(d => x(d[0]))
-      .y(d => y(d[1]));
-
-    const decisionBoundary = [
-      [x.domain()[0], (-sliders.w0 - sliders.w1 * x.domain()[0]) / sliders.w2],
-      [x.domain()[1], (-sliders.w0 - sliders.w1 * x.domain()[1]) / sliders.w2]
-    ];
-
-    console.log('Decision Boundary:', decisionBoundary);
-
-    svg.append("path")
-      .datum(decisionBoundary)
-      .attr("class", "decision-boundary")
-      .attr("d", line)
-      .attr("stroke", "black")
-      .attr("stroke-width", 2)
-      .attr("fill", "none");
   }
-
-  $: drawChart();
 </script>
 
 <div id='dropdown-container'>
@@ -159,17 +169,6 @@
 <div id="chart-container">
   <div id="scatterplot"></div>
   <div id="tooltip" style="display: none; position: absolute;"></div>
-</div>
-
-<div id="slider-container">
-  <label for="w0-slider">w0:</label>
-  <input type="range" id="w0-slider" min="-50" max="50" step="1" bind:value={sliders.w0} />
-
-  <label for="w1-slider">w1:</label>
-  <input type="range" id="w1-slider" min="-1" max="1" step="0.01" bind:value={sliders.w1} />
-
-  <label for="w2-slider">w2:</label>
-  <input type="range" id="w2-slider" min="-1" max="1" step="0.01" bind:value={sliders.w2} />
 </div>
 
 <style>
