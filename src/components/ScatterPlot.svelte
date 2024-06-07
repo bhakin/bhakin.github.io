@@ -132,10 +132,10 @@
     const x2 = x1.map(x => (-w[0] * x - b) / w[1]);
 
     svg.append('line')
-      .attr('x1', xScale(x1[0] + 2.75))
-      .attr('y1', yScale(x2[0] + 2.75))
-      .attr('x2', xScale(x1[1] + 2.75))
-      .attr('y2', yScale(x2[1] + 2.75))
+      .attr('x1', xScale(x1[0]))
+      .attr('y1', yScale(x2[0]))
+      .attr('x2', xScale(x1[1]))
+      .attr('y2', yScale(x2[1]))
       .attr('stroke', 'green')
       .attr('stroke-width', 2);
     
