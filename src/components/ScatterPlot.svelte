@@ -128,14 +128,17 @@
     const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
     const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
 
-    const x1 = x.domain();
-    const x2 = x1.map(x => (-w[0] * x - b) / w[1]);
+    const x1 = xRange[0];
+    const x2 = xRange[1];
+
+    const y1 = (-w[0] * x1 - b) / w[1];
+    const y2 = (-w[0] * x2 - b) / w[1];
 
     svg.append('line')
-      .attr('x1', x(x1[0]))
-      .attr('y1', y(x2[0]))
-      .attr('x2', x(x1[1]))
-      .attr('y2', y(x2[1]))
+      .attr('x1', x(x1))
+      .attr('y1', y(y1))
+      .attr('x2', x(x2))
+      .attr('y2', y(y2))
       .attr('stroke', 'green')
       .attr('stroke-width', 2);
     
