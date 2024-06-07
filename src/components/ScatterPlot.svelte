@@ -71,10 +71,6 @@
       .style("text-anchor", "middle")
       .text("Release Speed");
 
-    const color = d3.scaleOrdinal()
-      .domain(["FF", "CH", "SL", "FC"])
-      .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
-
     const tooltip = d3.select("#tooltip");
 
     const highlight = function(event, d) {
@@ -107,8 +103,12 @@
       tooltip.style("display", "none");
     };
 
+    const color = d3.scaleOrdinal()
+    .domain(selectedPair)
+    .range(["blue", "red"]);
+
     // Prepare the data for SVM training
-    var labelMapping = { [selectedPair[0]]: 1, [selectedPair[1]]: -1 };
+    var labelMapping = { "FF": 1, "CH": -1, "SL": 1, "FC": -1 };
     var features = filteredData.map(d => [d.release_spin_rate, d.release_speed]);
     var labels = filteredData.map(d => labelMapping[d.pitch_type]);
 
