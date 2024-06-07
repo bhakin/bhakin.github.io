@@ -128,16 +128,14 @@
     const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
     const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
 
-    const x1 = d3.min(filteredData, d => d.release_spin_rate);
-    const x2 = d3.max(filteredData, d => d.release_spin_rate);
-    const y1 = (-w[0] * x1 - b) / w[1];
-    const y2 = (-w[0] * x2 - b) / w[1];
+    const x1 = xScale.domain();
+    const x2 = x1.map(x => (-w[0] * x - b) / w[1]);
 
-    svg.append('line') 
-      .attr('x1', xScale(x1))
-      .attr('y1', yScale(y1))
-      .attr('x2', xScale(x2))
-      .attr('y2', yScale(y2))
+    svg.append('line')
+      .attr('x1', xScale(x1[0] + 3))
+      .attr('y1', yScale(x2[0] + 3))
+      .attr('x2', xScale(x1[1] + 3))
+      .attr('y2', yScale(x2[1] + 3))
       .attr('stroke', 'green')
       .attr('stroke-width', 2);
     
