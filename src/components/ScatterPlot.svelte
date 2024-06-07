@@ -128,6 +128,9 @@
     const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
     const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
 
+    const xRange = x.domain();
+    const yRange = y.domain();
+
     const x1 = xRange[0];
     const x2 = xRange[1];
 
