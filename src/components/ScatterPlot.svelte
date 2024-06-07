@@ -104,8 +104,8 @@
     };
 
     const color = d3.scaleOrdinal()
-    .domain(selectedPair)
-    .range(["blue", "red"]);
+      .domain(["FF", "CH", "SL", "FC"])
+      .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
 
     // Prepare the data for SVM training
     var labelMapping = { "FF": 1, "CH": -1, "SL": 1, "FC": -1 };
@@ -128,22 +128,21 @@
     const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
     const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
 
-    const xRange = x.domain();
-    const yRange = y.domain();
-
-    const x1 = xRange[0];
-    const x2 = xRange[1];
-
+    const x1 = x.domain()[0];
     const y1 = (-w[0] * x1 - b) / w[1];
+
+    const x2 = x.domain()[1];
     const y2 = (-w[0] * x2 - b) / w[1];
 
-    svg.append('line')
-      .attr('x1', x(x1))
-      .attr('y1', y(y1))
-      .attr('x2', x(x2))
-      .attr('y2', y(y2))
-      .attr('stroke', 'green')
-      .attr('stroke-width', 2);
+    if (y1 >= y.domain()[0] && y1 <= y.domain()[1] && y2 >= y.domain()[0] && y2 <= y.domain()[1]) {
+      svg.append('line')
+        .attr('x1', x(x1))
+        .attr('y1', y(y1))
+        .attr('x2', x(x2))
+        .attr('y2', y(y2))
+        .attr('stroke', 'green')
+        .attr('stroke-width', 2);
+    }
     
 
     svg.append('g')
