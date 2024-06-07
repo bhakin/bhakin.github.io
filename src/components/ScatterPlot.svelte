@@ -125,14 +125,13 @@
     const w = svm.W
     const b = svm.b
 
-    const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
-    const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
-
     const x1 = x.domain()[0];
-    const y1 = (-w[0] * x1 - b) / w[1];
-
     const x2 = x.domain()[1];
+
+    const y1 = (-w[0] * x1 - b) / w[1];
     const y2 = (-w[0] * x2 - b) / w[1];
+
+    console.log("x1:", x1, "y1:", y1, "x2:", x2, "y2:", y2);
 
     if (y1 >= y.domain()[0] && y1 <= y.domain()[1] && y2 >= y.domain()[0] && y2 <= y.domain()[1]) {
       svg.append('line')
