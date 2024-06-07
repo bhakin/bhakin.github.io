@@ -133,7 +133,7 @@
 
     svg.append('line')
       .attr('x1', xScale(x1[0] + 2.75))
-      .attr('y1', yScale(x2[0] + 2))
+      .attr('y1', yScale(x2[0] + 4))
       .attr('x2', xScale(x1[1] + 2.75))
       .attr('y2', yScale(x2[1] + 2))
       .attr('stroke', 'green')
