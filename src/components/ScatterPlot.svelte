@@ -71,6 +71,10 @@
       .style("text-anchor", "middle")
       .text("Release Speed");
 
+    const color = d3.scaleOrdinal()
+      .domain(["FF", "CH", "SL", "FC"])
+      .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
+
     const tooltip = d3.select("#tooltip");
 
     const highlight = function(event, d) {
@@ -103,12 +107,8 @@
       tooltip.style("display", "none");
     };
 
-    const color = d3.scaleOrdinal()
-      .domain(["FF", "CH", "SL", "FC"])
-      .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
-
     // Prepare the data for SVM training
-    var labelMapping = { "FF": 1, "CH": -1, "SL": 1, "FC": -1 };
+    var labelMapping = { [selectedPair[0]]: 1, [selectedPair[1]]: -1 };
     var features = filteredData.map(d => [d.release_spin_rate, d.release_speed]);
     var labels = filteredData.map(d => labelMapping[d.pitch_type]);
 
@@ -125,23 +125,19 @@
     const w = svm.W
     const b = svm.b
 
-    const x1 = x.domain()[0];
-    const x2 = x.domain()[1];
+    const xScale = d3.scaleLinear().domain([0,6]).range([0, width])
+    const yScale = d3.scaleLinear().domain([0,6]).range([height,0])
 
-    const y1 = (-w[0] * x1 - b) / w[1];
-    const y2 = (-w[0] * x2 - b) / w[1];
+    const x1 = xScale.domain();
+    const x2 = x1.map(x => (-w[0] * x - b) / w[1]);
 
-    console.log("x1:", x1, "y1:", y1, "x2:", x2, "y2:", y2);
-
-    if (y1 >= y.domain()[0] && y1 <= y.domain()[1] && y2 >= y.domain()[0] && y2 <= y.domain()[1]) {
-      svg.append('line')
-        .attr('x1', x(x1))
-        .attr('y1', y(y1))
-        .attr('x2', x(x2))
-        .attr('y2', y(y2))
-        .attr('stroke', 'green')
-        .attr('stroke-width', 2);
-    }
+    svg.append('line')
+      .attr('x1', xScale(x1[0] + 2.75))
+      .attr('y1', yScale(x2[0] + 2.75))
+      .attr('x2', xScale(x1[1] + 2.75))
+      .attr('y2', yScale(x2[1] + 2.75))
+      .attr('stroke', 'green')
+      .attr('stroke-width', 2);
     
 
     svg.append('g')
