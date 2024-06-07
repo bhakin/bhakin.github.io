@@ -6,11 +6,15 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <title>SVM Tutorial</title>
   </head>
+  
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <div>
+    
       <h1>What is a Linear SVM?</h1>
+
+      <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+      <div>
+
       <p>The idea behind maximum margin classifers are to implement linear separability to correctly classify data into categories.<br>
         Support Vector Machines are a form of margin margin classifers that aim to have large margins between the decision boundary and training point.<br>
       </p>
@@ -20,7 +24,7 @@
         The problem becomes: \(\min_{\vec(w) \in \mathbb{R}^{d+1}, \vec{\epsilon} \in \mathbb{R}^n} \lVert{\vec{w}}\rVert^2 + C \sum_{i=1}^n \epsilon_i \)<br>
         Where, \(C\) is considered the slack parameter: Large \(C\) avoids misclassifications with low slack and Small \(C\) allows for more slack at the cost of misclassifications.
       </p>
-      <p>This interactive visualization recreates allow for experimentation for how linear boundaries work in SVMs. By adjusting the \(\vec{w}\) parameters, you can see how the boundary shifts along with the support vectors.</p>
+      <p>This interactive visualization recreates allow for experimentation for how linear boundaries work in SVMs.</p>
 
     </div>
   </body>
