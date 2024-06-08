@@ -24,14 +24,15 @@
 
   onMount(() => {
     drawChart();
+    window.addEventListener('resize', drawChart);
   });
 
   $: drawChart();
 
   function drawChart() {
     const margin = { top: 10, right: 30, bottom: 50, left: 60 };
-    const width = 600;
-    const height = 400;
+    const width = document.getElementById('scatterplot').clientWidth - margin.left - margin.right;;
+    const height = 400 - margin.top - margin.bottom;;
 
     d3.select("#scatterplot").select("svg").remove();
 
@@ -65,7 +66,7 @@
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", -margin.left + 24)
+      .attr("y", -margin.left + 28)
       .attr("x", -height / 2)
       .attr("dy", "-1em")
       .style("text-anchor", "middle")
@@ -187,6 +188,9 @@
     justify-content: center;
     align-items: center;
     height: 10vh;
+  }
+  #tooltip {
+    pointer-events: none;
   }
 </style>
 
