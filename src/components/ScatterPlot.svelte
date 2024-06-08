@@ -1,4 +1,4 @@
- <script>
+<script>
   import { onMount, createEventDispatcher } from 'svelte';
   import * as d3 from 'd3';
   import SVM from 'ml-svm';
@@ -65,49 +65,37 @@
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", -margin.left + 20)
+      .attr("y", -margin.left + 15)
       .attr("x", -height / 2)
       .attr("dy", "-1em")
       .style("text-anchor", "middle")
       .text("Release Speed");
 
-    // Tooltip setup
-    const tooltip = d3.select("#scatterplot")
-      .append("div")
-      .style("position", "absolute")
-      .style("background", "white")
-      .style("padding", "5px")
-      .style("border", "1px solid black")
-      .style("border-radius", "5px")
-      .style("pointer-events", "none")
-      .style("opacity", 0);
-
-    svg.selectAll("circle")
-      .data(filteredData)
-      .enter()
-      .append("circle")
-      .attr("cx", d => x(d.release_spin_rate))
-      .attr("cy", d => y(d.release_speed))
-      .attr("r", 5)
-      .style("fill", "steelblue")
-      .on("mouseover", (event, d) => {
-        tooltip.transition().duration(200).style("opacity", .9);
-        tooltip.html(`Release Spin Rate: ${d.release_spin_rate}<br/>Release Speed: ${d.release_speed}`)
-          .style("left", (event.pageX + 5) + "px")
-          .style("top", (event.pageY - 28) + "px");
-      })
-      .on("mouseout", () => {
-        tooltip.transition().duration(500).style("opacity", 0);
-      });
-
     const color = d3.scaleOrdinal()
       .domain(["FF", "CH", "SL", "FC"])
       .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
 
+    const tooltip = d3.select("#tooltip");
 
     const highlight = function(event, d) {
       let selected_pitch_type = d.pitch_type;
 
+      d3.selectAll(".dot")
+        .transition()
+        .duration(200)
+        .style("fill", "lightgrey")
+        .attr("r", 3);
+
+      d3.selectAll("." + selected_pitch_type)
+        .transition()
+        .duration(200)
+        .style("fill", color(selected_pitch_type))
+        .attr("r", 7);
+
+      tooltip.style("display", "block")
+        .html(`Pitch Type: ${d.pitch_type}<br>Release Speed: ${d.release_speed}<br>Spin Rate: ${d.release_spin_rate}`)
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY + "px");
     };
 
     const doNotHighlight = function(event, d) {
