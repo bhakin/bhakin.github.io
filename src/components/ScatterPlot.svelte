@@ -31,8 +31,8 @@
 
   function drawChart() {
     const margin = { top: 10, right: 30, bottom: 50, left: 60 };
-    const width = document.getElementById('scatterplot').clientWidth - margin.left - margin.right;;
-    const height = 400 - margin.top - margin.bottom;;
+    const width = 600;
+    const height = 400;
 
     d3.select("#scatterplot").select("svg").remove();
 
@@ -189,8 +189,6 @@
     align-items: center;
     height: 10vh;
   }
-  #tooltip {
-    pointer-events: none;
-  }
+  
 </style>
 
