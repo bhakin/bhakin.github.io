@@ -33,14 +33,12 @@
       <div>
         <br>
 
-      <p>Observe that if a new data point is added to the graph, the machine will predict the pitch type to be the same with the majority pitch type in the left/right side of 
-        the decision boundary. For instance, if we are looking at Pitch Pair CH & SL and the new point has a Release Speed of 87 mph and Release Spin Rate of 2500 rpm then the 
-        machine will predict it to be SL as the pitch type. 
-
+      <p>Observe that if a new data point is added to the graph, the machine will predict the pitch type to be the same as the majority pitch type on the left/right side of the decision boundary. 
+        For instance, if we are looking at Pitch Pair CH & SL and the new point has a Release Speed of 87 mph and a Release Spin Rate of 2500 rpm then the machine will predict it to be SL as the pitch type. 
       </p>
-      <p>However, notice that in one of the pitch pair, there was no decision boundary drawn. This is because the data was too close to each other so it wasnt able to
-        calculate an accurate decision boundary. This is one of the weaknesses of SVMs. This explains why in some rare cases bank would mark something as a fraudulent transaction 
-        even though it is not. 
+
+      <p>However, notice that in one of the pitch pairs, there was no decision boundary drawn. This is because the data was too close to each other so it wasn't able to calculate an accurate decision boundary. 
+        This is one of the weaknesses of SVMs. This explains why in some rare cases banks would mark something as a fraudulent transaction even though it is not. 
       </p>
 
       <p>Nevertheless, SVMs is still one of powerful algorithms that is used worldwide   </p>
@@ -56,6 +54,10 @@
         The problem becomes: \(\min_{\vec(w) \in \mathbb{R}^{d+1}, \vec{\epsilon} \in \mathbb{R}^n} \lVert{\vec{w}}\rVert^2 + C \sum_{i=1}^n \epsilon_i \)<br>
         Where, \(C\) is considered the slack parameter: Large \(C\) avoids misclassifications with low slack and Small \(C\) allows for more slack at the cost of misclassifications.
       </p>
+
+      <h3>Reference</h3>
+      <p>Video Link: CLICK HERE</p>
+      <p>Repo: CLICK HERE</p>
 
     </div>
   </body>
