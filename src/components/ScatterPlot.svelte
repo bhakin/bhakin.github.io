@@ -65,7 +65,7 @@
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", -margin.left + 15)
+      .attr("y", -margin.left + 24)
       .attr("x", -height / 2)
       .attr("dy", "-1em")
       .style("text-anchor", "middle")
@@ -90,12 +90,15 @@
         .transition()
         .duration(200)
         .style("fill", color(selected_pitch_type))
-        .attr("r", 7);
+        .attr("r", 7)
+        .style("stroke", "white")
+        .style("stroke-width", 2);
 
       tooltip.style("display", "block")
         .html(`Pitch Type: ${d.pitch_type}<br>Release Speed: ${d.release_speed}<br>Spin Rate: ${d.release_spin_rate}`)
         .style("left", event.pageX + 10 + "px")
         .style("top", event.pageY + "px");
+        
     };
 
     const doNotHighlight = function(event, d) {
@@ -103,7 +106,8 @@
         .transition()
         .duration(200)
         .style("fill", d => color(d.pitch_type))
-        .attr("r", 5);
+        .attr("r", 5)
+        .style("stroke", "none");
       tooltip.style("display", "none");
     };
 
