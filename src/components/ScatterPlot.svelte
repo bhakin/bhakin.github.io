@@ -173,7 +173,7 @@
 
 <div id="chart-container">
   <div id="scatterplot"></div>
-  <div id="tooltip" style="display: none; position: absolute;"></div>
+  <div id="tooltip" style="display: none; position: absolute; background: white; border: 1px solid #000; padding: 5px; border-radius: 5px; font-size: 14px; color: black;"></div>
 </div>
 
 <style>
