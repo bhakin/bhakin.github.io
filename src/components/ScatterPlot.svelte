@@ -6,12 +6,12 @@
 
   const dispatch = createEventDispatcher();
 
-  let selectedPair = ["FF", "CH"];
+  let selectedPair = ["CH", "SL"];
   const pitchPairs = [
+    ["CH", "SL"],
     ["FF", "CH"],
     ["FF", "SL"],
     ["FF", "FC"],
-    ["CH", "SL"],
     ["CH", "FC"],
     ["SL", "FC"]
   ];
