@@ -71,11 +71,39 @@
       .style("text-anchor", "middle")
       .text("Release Speed");
 
+    // Tooltip setup
+    const tooltip = d3.select("#scatterplot")
+      .append("div")
+      .style("position", "absolute")
+      .style("background", "white")
+      .style("padding", "5px")
+      .style("border", "1px solid black")
+      .style("border-radius", "5px")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
+
+    svg.selectAll("circle")
+      .data(filteredData)
+      .enter()
+      .append("circle")
+      .attr("cx", d => x(d.release_spin_rate))
+      .attr("cy", d => y(d.release_speed))
+      .attr("r", 5)
+      .style("fill", "steelblue")
+      .on("mouseover", (event, d) => {
+        tooltip.transition().duration(200).style("opacity", .9);
+        tooltip.html(`Release Spin Rate: ${d.release_spin_rate}<br/>Release Speed: ${d.release_speed}`)
+          .style("left", (event.pageX + 5) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.transition().duration(500).style("opacity", 0);
+      });
+
     const color = d3.scaleOrdinal()
       .domain(["FF", "CH", "SL", "FC"])
       .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
 
-    const tooltip = d3.select("#tooltip");
 
     const highlight = function(event, d) {
       let selected_pitch_type = d.pitch_type;
@@ -133,9 +161,9 @@
 
     svg.append('line')
       .attr('x1', xScale(x1[0] + 2.75))
-      .attr('y1', yScale(x2[0] + 4))
+      .attr('y1', yScale(x2[0] + 2.75))
       .attr('x2', xScale(x1[1] + 2.75))
-      .attr('y2', yScale(x2[1] + 2))
+      .attr('y2', yScale(x2[1] + 2.75))
       .attr('stroke', 'green')
       .attr('stroke-width', 2);
     
