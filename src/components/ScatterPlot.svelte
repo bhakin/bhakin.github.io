@@ -56,7 +56,7 @@
       .attr("x", width / 2)
       .attr("y", height + margin.bottom - 10)
       .style("text-anchor", "middle")
-      .text("Release Spin Rate");
+      .text("Release Spin Rate - RPM (Rotations Per Minute)");
 
     const y = d3.scaleLinear()
       .domain([d3.min(filteredData, d => d.release_speed) - 5, d3.max(filteredData, d => d.release_speed) + 5])
@@ -70,7 +70,7 @@
       .attr("x", -height / 2)
       .attr("dy", "-1em")
       .style("text-anchor", "middle")
-      .text("Release Speed");
+      .text("Release Speed - MPH (Miles Per Hour)");
 
     const color = d3.scaleOrdinal()
       .domain(["FF", "CH", "SL", "FC"])
@@ -96,7 +96,7 @@
         .style("stroke-width", 2);
 
       tooltip.style("display", "block")
-        .html(`Pitch Type: ${d.pitch_type}<br>Release Speed: ${d.release_speed}<br>Spin Rate: ${d.release_spin_rate}`)
+        .html(`Pitch Type: ${d.pitch_type}<br>Release Speed: ${d.release_speed} MPH<br>Spin Rate: ${d.release_spin_rate} RPM`)
         .style("left", event.pageX + 10 + "px")
         .style("top", event.pageY + "px");
         
