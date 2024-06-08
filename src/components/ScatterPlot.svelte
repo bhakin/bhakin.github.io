@@ -105,6 +105,11 @@
       .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
 
 
+    const highlight = function(event, d) {
+      let selected_pitch_type = d.pitch_type;
+
+    };
+
     const doNotHighlight = function(event, d) {
       d3.selectAll(".dot")
         .transition()
