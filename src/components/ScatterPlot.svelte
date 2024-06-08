@@ -105,27 +105,6 @@
       .range(["#FF0000", "#0000FF", "#800080", '#FFA500']);
 
 
-    const highlight = function(event, d) {
-      let selected_pitch_type = d.pitch_type;
-
-      d3.selectAll(".dot")
-        .transition()
-        .duration(200)
-        .style("fill", "lightgrey")
-        .attr("r", 3);
-
-      d3.selectAll("." + selected_pitch_type)
-        .transition()
-        .duration(200)
-        .style("fill", color(selected_pitch_type))
-        .attr("r", 7);
-
-      tooltip.style("display", "block")
-        .html(`Pitch Type: ${d.pitch_type}`)
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY + "px");
-    };
-
     const doNotHighlight = function(event, d) {
       d3.selectAll(".dot")
         .transition()
